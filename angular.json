@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "projects": {
+    "hud-poc": {
+      "projectType": "application",
+      "root": "apps/hud-poc",
+      "sourceRoot": "apps/hud-poc/src",
+      "prefix": "hud-poc",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/hud-poc",
+            "index": "apps/hud-poc/src/index.html",
+            "main": "apps/hud-poc/src/main.ts",
+            "polyfills": "apps/hud-poc/src/polyfills.ts",
+            "tsConfig": "apps/hud-poc/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/hud-poc/src/favicon.ico",
+              "apps/hud-poc/src/assets"
+            ],
+            "styles": ["apps/hud-poc/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/hud-poc/src/environments/environment.ts",
+                  "with": "apps/hud-poc/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "hud-poc:build:production"
+            },
+            "development": {
+              "browserTarget": "hud-poc:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "hud-poc:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/hud-poc/src/**/*.ts",
+              "apps/hud-poc/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/hud-poc"],
+          "options": {
+            "jestConfig": "apps/hud-poc/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "hud-poc-e2e": {
+      "root": "apps/hud-poc-e2e",
+      "sourceRoot": "apps/hud-poc-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/hud-poc-e2e/cypress.json",
+            "tsConfig": "apps/hud-poc-e2e/tsconfig.e2e.json",
+            "devServerTarget": "hud-poc:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "hud-poc:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/hud-poc-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "hud-poc"
+}
